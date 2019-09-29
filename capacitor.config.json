@@ -1,0 +1,8 @@
+{
+  "appId": "com.ionic.chart",
+  "appName": "ionic-chart",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "windowsAndroidStudioPath": "C:/Program Files/Android/Android Studio/bin/stduio64.exe"
+}

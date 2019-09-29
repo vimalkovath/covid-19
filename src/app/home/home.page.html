@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Ionic ChartJS
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- BarChart -->
+  <ion-card>
+    <ion-card-content>
+      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [legend]="barChartLegend" [chartType]="barChartType">
+      </canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>Basic Bar Chart</ion-card-title>
+      <ion-card-subtitle>Create basic bar chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Doughtnut Chart-->
+  <ion-card>
+    <ion-card-content>
+      <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"></canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>Basic Doughtnut Chart</ion-card-title>
+      <ion-card-subtitle>Create basic Doughtnut Chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+  <!-- Radar Chart-->
+  <ion-card>
+    <ion-card-content>
+      <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"></canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>Basic Radar Chart</ion-card-title>
+      <ion-card-subtitle>Create basic Radar Chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+
+  <!-- Pie Chart-->
+  <ion-card>
+    <ion-card-content>
+      <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>Basic Pie Chart</ion-card-title>
+      <ion-card-subtitle>Create basic Pie Chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+
+
+
+
+</ion-content>
