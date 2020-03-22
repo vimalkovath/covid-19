@@ -22,12 +22,10 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
-    this.patientApi.GeAllPatients().subscribe(data => {
-
-      this.patientsAllData = data["data"];
-      console.log(this.patientsAllData);
-
-    });
+    // this.patientApi.GeAllPatients().subscribe(data => {
+    //   this.patientsAllData = data["data"];
+    //   console.log(this.patientsAllData);
+    // });
   }
 
 
