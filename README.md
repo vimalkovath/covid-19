@@ -5,8 +5,6 @@
 
 --------------------
 #### Clone Project
-`git clone https://github.com/sutin1234/ionic4-chartjs.git`
-`cd ionic4-chartjs`
 `npm install`
 
 --------------------
@@ -26,8 +24,7 @@ Build Project Capacitor
 
 --------------------
 #### Screenshort
-![img](screenshort/70962191_2565110200199322_2774430619881439232_n.jpg)
-![img](screenshort/71690417_2565110260199316_7303456432169418752_n.jpg)
+
 
 #### Resources referrents
 https://www.chartjs.org/

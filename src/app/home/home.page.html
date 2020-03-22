@@ -21,7 +21,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="patientsAllData">
+<ion-content *ngIf="patientsAllData" class="container">
 
 
   <ion-item lines="none" >
@@ -59,6 +59,28 @@
 
 </ion-item>
 
+
+<!-- line chart -->
+<ion-card>
+
+  <ion-card-content>
+    <canvas baseChart
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [legend]="lineChartOptions"
+    [chartType]="lineChartType"
+   >
+  </canvas>
+
+
+  </ion-card-content>
+
+  <ion-card-header>
+    <ion-card-title>Daily report</ion-card-title>
+    <ion-card-subtitle></ion-card-subtitle>
+  </ion-card-header>
+</ion-card>
 
 <!-- table statewiswe -->
 <ion-card>
@@ -144,6 +166,9 @@
     
   </ion-card>
 
+
+
+
 <!-- bar chart 2 -->
   <!-- <ion-card>
     <ion-card-content>
@@ -157,26 +182,6 @@
       <ion-card-subtitle>Create basic bar chart in ionic4</ion-card-subtitle>
     </ion-card-header>
   </ion-card> -->
-
-<!-- line chart -->
-<ion-card>
-
-  <!-- <ion-card-content>
-    <canvas baseChart
-    [datasets]="lineChartData"
-    [labels]="lineChartLabels"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [chartType]="lineChartType">
-    </canvas>
-  </ion-card-content> -->
-
-  <ion-card-header>
-    <ion-card-title>Daily report</ion-card-title>
-    <ion-card-subtitle></ion-card-subtitle>
-  </ion-card-header>
-</ion-card>
-
 
 
 </ion-content>

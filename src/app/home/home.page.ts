@@ -5,6 +5,7 @@ import { AlertController, ToastController, } from '@ionic/angular';
 
 import { ApiService } from './../api.service';
 import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label } from 'ng2-charts';
 import _ from 'lodash';
 
 @Component({
@@ -42,10 +43,12 @@ export class HomePage implements OnInit {
     { data: [], label: ' report' },
   ];
   public lineChartLabels = [];
-  public lineChartOptions;
+  // public lineChartOptions;
   public lineChartLegend = false;
   public lineChartType = 'line';
   public lineChartPlugins = [];
+  
+  lineChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } }};
 
 
   // init start
