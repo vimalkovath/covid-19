@@ -24,22 +24,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.patientApi.GeAllPatients().subscribe(data => {
 
-      this.patientsAllData = data["data"]["rawPatientData"];
+      this.patientsAllData = data["data"];
       console.log(this.patientsAllData);
-
-      this.patientsData = this.patientsAllData.filter(
-        patients => patients['reportedOn'] !== null);
-
-      console.log(this.patientsData.length);
-      this.patientsRecoveredData = this.patientsData.filter(
-        recovered => recovered['status'] === 'Recovered');
-
-      this.patientHptlData = this.patientsData.filter(
-        recovered => recovered['status'] === 'Hospitalized');
-
-      this.patientDeathData = this.patientsData.filter(
-        recovered => recovered['status'] === 'Deceased');
-
 
     });
   }
