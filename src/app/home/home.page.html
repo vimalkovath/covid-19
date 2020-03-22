@@ -1,12 +1,107 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>
-      Ionic ChartJS
+    <!-- <ion-title>
+      COVID19 
+    </ion-title> -->
+
+    <ion-item lines="none" color="primary">
+    
+        <ion-title color="medium">
+      COVID19 
     </ion-title>
+
+       
+      <ion-button shape="round" fill="outline" size="small" color="medium" (click)="alertLocation()">
+        Location
+        <ion-icon name="locate"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="patientsAllData">
+
+
+  <ion-item lines="none" >
+    
+    <ion-card>
+      
+
+      <ion-card-header>
+        <ion-card-title> {{patientsAllData.length}} </ion-card-title>
+        <ion-card-subtitle>Total Cases</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{patientHptlData.length}}</ion-card-title>
+        <ion-card-subtitle>Hospitalized</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{patientsRecoveredData.length}}</ion-card-title>
+        <ion-card-subtitle>Recovered</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{patientDeathData.length}}</ion-card-title>
+        <ion-card-subtitle>Death</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+
+</ion-item>
+
+
+<!-- table statewiswe -->
+<ion-card>
+  <ion-card-header>State Wise Report </ion-card-header>
+<ion-grid>
+  <ion-row>
+    <ion-col>
+      <ion-card-title>
+       #
+      </ion-card-title>
+    </ion-col>
+    <ion-col>
+      <ion-card-title>
+       State
+      </ion-card-title>
+    </ion-col>
+    <ion-col>
+      <ion-card-title>
+        Effected
+      </ion-card-title>
+    </ion-col>
+  </ion-row>
+  <ion-row  *ngFor="let item of allState | keyvalue index as i; " class="botomline">
+    <ion-col>
+      <div>
+       {{i+1}}
+      </div>
+    </ion-col>
+    <ion-col>
+      <div>
+        {{item.key}}
+      </div>
+    </ion-col>
+    <ion-col>
+      <div>  {{item.value}} 
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-card>
+
+
+
   <!-- BarChart -->
   <ion-card>
     <ion-card-content>
@@ -16,13 +111,14 @@
     </ion-card-content>
 
     <ion-card-header>
-      <ion-card-title>Basic Bar Chart</ion-card-title>
-      <ion-card-subtitle>Create basic bar chart in ionic4</ion-card-subtitle>
+      <ion-card-title>State wise </ion-card-title>
+      <ion-card-subtitle>Comparison</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 
+
   <!-- Doughtnut Chart-->
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-content>
       <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
         [chartType]="doughnutChartType"></canvas>
@@ -32,19 +128,7 @@
       <ion-card-title>Basic Doughtnut Chart</ion-card-title>
       <ion-card-subtitle>Create basic Doughtnut Chart in ionic4</ion-card-subtitle>
     </ion-card-header>
-  </ion-card>
-
-  <!-- Radar Chart-->
-  <ion-card>
-    <ion-card-content>
-      <canvas baseChart [datasets]="radarChartData" [labels]="radarChartLabels" [chartType]="radarChartType"></canvas>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-card-title>Basic Radar Chart</ion-card-title>
-      <ion-card-subtitle>Create basic Radar Chart in ionic4</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+  </ion-card> -->
 
 
   <!-- Pie Chart-->
@@ -54,12 +138,44 @@
     </ion-card-content>
 
     <ion-card-header>
-      <ion-card-title>Basic Pie Chart</ion-card-title>
-      <ion-card-subtitle>Create basic Pie Chart in ionic4</ion-card-subtitle>
+      <ion-card-title>All Count</ion-card-title>
+      <ion-card-subtitle></ion-card-subtitle>
     </ion-card-header>
+    
   </ion-card>
 
+<!-- bar chart 2 -->
+  <!-- <ion-card>
+    <ion-card-content>
+      <canvas baseChart [datasets]="barChartData2" [labels]="barChartLabels1" [options]="barChartOptions"
+       [chartType]="barChartType">
+      </canvas>
+    </ion-card-content>
 
+    <ion-card-header>
+      <ion-card-title>Basic Bar Chart</ion-card-title>
+      <ion-card-subtitle>Create basic bar chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card> -->
+
+<!-- line chart -->
+<ion-card>
+
+  <!-- <ion-card-content>
+    <canvas baseChart
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [chartType]="lineChartType">
+    </canvas>
+  </ion-card-content> -->
+
+  <ion-card-header>
+    <ion-card-title>Daily report</ion-card-title>
+    <ion-card-subtitle></ion-card-subtitle>
+  </ion-card-header>
+</ion-card>
 
 
 

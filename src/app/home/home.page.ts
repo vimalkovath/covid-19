@@ -1,41 +1,189 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
+
+import { AlertController, ToastController, } from '@ionic/angular';
+
+import { ApiService } from './../api.service';
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
+  yourLocation = '123 Test Street';
   barChartOptions = {
     scaleShowVerticalLines: false,
     responsive: true
   };
 
-  barChartLabels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  barChartLabels;
   barChartType = 'bar';
   barChartLegend = true;
-  barChartData = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
+  barChartData = [{ data: [], label: 'Total' }];
 
+  barChartLabels1;
+  values2;
+  barChartData2 = [{ data: [], label: 'Total' }];
 
-  doughnutChartLabels = ['Sales Q1', 'Sales Q2', 'Sales Q3', 'Sales Q4'];
-  doughnutChartData = [120, 150, 180, 90];
+  doughnutChartLabels = [];
+  doughnutChartData = [];
   doughnutChartType = 'doughnut';
 
-  radarChartLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
-  radarChartData = [
-    {data: [120, 130, 180, 70], label: '2017'},
-    {data: [90, 150, 200, 45], label: '2018'}
-  ];
-  radarChartType = 'radar';
-
-  pieChartLabels = ['Sales Q1', 'Sales Q2', 'Sales Q3', 'Sales Q4'];
-  pieChartData = [120, 150, 180, 90];
+  pieChartLabels = [];
+  pieChartData = [];
   pieChartType = 'pie';
 
-  constructor() {}
+  // line chart
+  public lineChartData = [
+    { data: [], label: ' report' },
+  ];
+  public lineChartLabels = [];
+  public lineChartOptions;
+  public lineChartLegend = false;
+  public lineChartType = 'line';
+  public lineChartPlugins = [];
+
+
+  // init start
+  patientsData;
+  patientsAllData;
+  patientsRecoveredData;
+  patientHptlData;
+  patientDeathData;
+
+  keys;
+  stateData;
+
+  allState;
+  allstatus;
+  values;
+  allReported;
+
+  state_status;
+
+  ngOnInit() {
+
+    // patientId: 1
+    // reportedOn: "30/01/2020"
+    // onsetEstimate: ""
+    // ageEstimate: "20"
+    // gender: "female"
+    // city: "Thrissur"
+    // district: "Thrissur"
+    // state: "Kerala"
+    // status: "Recovered"
+    // notes: "Student from Wuhan"
+    // contractedFrom: ""
+    this.patientApi.GeAllPatients().subscribe(data => {
+
+      this.patientsAllData = data["data"]["rawPatientData"];
+      console.log(this.patientsAllData);
+
+      this.patientsData = this.patientsAllData.filter(
+        patients => patients['reportedOn'] !== null);
+
+      console.log(this.patientsData.length);
+      this.patientsRecoveredData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Recovered');
+
+      this.patientHptlData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Hospitalized');
+
+      this.patientDeathData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Deceased');
+
+
+
+      this.allState = _.countBy(this.patientsAllData, "state");
+      this.allstatus = _.countBy(this.patientsAllData, "status");
+      this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+
+      // bar chart
+      this.barChartLabels = _.keys(this.allState);
+      this.values = _.values(this.allState);
+      this.barChartData[0].data = this.values;
+
+      // bar chart
+      // this.barChartLabels1 = _.keys(this.allReported);
+      // this.values2 = _.values(this.allReported);
+      // this.barChartData2[0].data = this.values2;
+
+      // line chart
+      this.lineChartLabels = _.keys(this.allReported);
+      this.values2 = _.values(this.allReported);
+      this.lineChartData[0].data = this.values2;
+
+      //  status
+      this.doughnutChartData = _.values(this.allstatus);
+      this.doughnutChartLabels = _.keys(this.allstatus);
+
+      this.pieChartData = _.values(this.allstatus);
+      this.pieChartLabels = _.keys(this.allstatus);
+
+    });
+
+  }
+
+
+  onDivClick(state) {
+    console.log("DIV is clicked!", state);
+
+    this.stateData = this.patientsData.filter(
+      statedata => statedata['Detected State'] === state);
+    console.log(this.stateData);
+
+    this.state_status = _.countBy(this.stateData, "status");
+  }
+
+
+
+  async alertLocation() {
+    const changeLocation = await this.alertCtrl.create({
+      header: 'Change Location',
+      message: 'Type your Address.',
+      inputs: [
+        {
+          name: 'location',
+          placeholder: 'Enter your new Location',
+          type: 'text'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Change',
+          handler: async (data) => {
+            console.log('Change clicked', data);
+            this.yourLocation = data.location;
+            const toast = await this.toastCtrl.create({
+              message: 'Location was change successfully',
+              duration: 3000,
+              position: 'top',
+              closeButtonText: 'OK',
+              showCloseButton: true
+            });
+
+            toast.present();
+          }
+        }
+      ]
+    });
+    changeLocation.present();
+  }
+
+  constructor(
+    private patientApi: ApiService,
+    public toastCtrl: ToastController,
+    public alertCtrl: AlertController, ) { }
+
 
 }
