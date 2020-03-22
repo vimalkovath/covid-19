@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-item lines="none" color="primary">
+        <ion-title color="medium">
+      COVID19 
+    </ion-title>
+    
+    </ion-item>
+
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card class="bg-white" no-margin>
+    <h1 margin-bottom>
+      <ion-text color="primary"><strong>Current results</strong></ion-text>
+    </h1>
+  
+    <ion-button shape="round" fill="outline" size="small" color="medium" (click)="navigate()">
+      For Deatils Click here
+      <ion-icon name="home"></ion-icon>
+    </ion-button>
+    
+  
+    
+        <ion-item  *ngIf="patientsAllData">
+    
+          <ion-card>
+                <ion-card-header>
+              <ion-card-title> {{patientsAllData.length}} </ion-card-title>
+              <ion-card-subtitle>Total Cases</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientHptlData.length}}</ion-card-title>
+              <ion-card-subtitle>Hospitalized</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientsRecoveredData.length}}</ion-card-title>
+              <ion-card-subtitle>Recovered</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientDeathData.length}}</ion-card-title>
+              <ion-card-subtitle>Death</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+      
+      </ion-item>
+
+    
+   
+
+  </ion-card>
+
+</ion-content>
