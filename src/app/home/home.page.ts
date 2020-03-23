@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { AlertController, ToastController, } from '@ionic/angular';
+import { AlertController, ToastController,NavController } from '@ionic/angular';
 
 import { ApiService } from './../api.service';
 import { ChartDataSets, ChartOptions } from 'chart.js';
@@ -132,6 +132,8 @@ export class HomePage implements OnInit {
   }
 
 
+
+
   onDivClick(state) {
     console.log("DIV is clicked!", state);
 
@@ -143,6 +145,124 @@ export class HomePage implements OnInit {
   }
 
 
+
+
+  onChartClick(e) {
+    if (e.active.length > 0) {
+      const chart = e.active[0]._chart;
+      const activePoints = chart.getElementAtEvent(e.event);
+      if ( activePoints.length > 0) {
+        // get the internal index of slice in pie chart
+        const clickedElementIndex = activePoints[0]._index;
+        const label = chart.data.labels[clickedElementIndex];
+        // get value by index
+        const value = chart.data.datasets[0].data[clickedElementIndex];
+        console.log(clickedElementIndex, label, value)
+
+        this.onChartClickTrigger(label);
+        
+
+      }
+    }
+  }
+
+  onChartClickTrigger(search) 
+  {
+  this.patientsAllData = this.patientsAllData.filter(
+    patients => patients['state'] === search );
+
+  this.patientsData = this.patientsAllData.filter(
+    patients => patients['reportedOn'] !== null);
+
+  console.log(this.patientsData.length);
+  this.patientsRecoveredData = this.patientsData.filter(
+    recovered => recovered['status'] === 'Recovered');
+
+  this.patientHptlData = this.patientsData.filter(
+    recovered => recovered['status'] === 'Hospitalized');
+
+  this.patientDeathData = this.patientsData.filter(
+    recovered => recovered['status'] === 'Deceased');
+
+
+
+  this.allState = _.countBy(this.patientsAllData, "district");
+  this.allstatus = _.countBy(this.patientsAllData, "status");
+  this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+
+  // bar chart
+  this.barChartLabels = _.keys(this.allState);
+  this.values = _.values(this.allState);
+  this.barChartData[0].data = this.values;
+
+  // bar chart
+  // this.barChartLabels1 = _.keys(this.allReported);
+  // this.values2 = _.values(this.allReported);
+  // this.barChartData2[0].data = this.values2;
+
+  // line chart
+  this.lineChartLabels = _.keys(this.allReported);
+  this.values2 = _.values(this.allReported);
+  this.lineChartData[0].data = this.values2;
+
+  //  status
+  this.doughnutChartData = _.values(this.allstatus);
+  this.doughnutChartLabels = _.keys(this.allstatus);
+
+  this.pieChartData = _.values(this.allstatus);
+  this.pieChartLabels = _.keys(this.allstatus);
+}
+
+onReset(){
+
+  this.patientApi.GeAllPatients().subscribe(data => {
+
+    this.patientsAllData = data["data"]["rawPatientData"];
+    console.log(this.patientsAllData);
+
+    this.patientsData = this.patientsAllData.filter(
+      patients => patients['reportedOn'] !== null);
+
+    console.log(this.patientsData.length);
+    this.patientsRecoveredData = this.patientsData.filter(
+      recovered => recovered['status'] === 'Recovered');
+
+    this.patientHptlData = this.patientsData.filter(
+      recovered => recovered['status'] === 'Hospitalized');
+
+    this.patientDeathData = this.patientsData.filter(
+      recovered => recovered['status'] === 'Deceased');
+
+
+
+    this.allState = _.countBy(this.patientsAllData, "state");
+    this.allstatus = _.countBy(this.patientsAllData, "status");
+    this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+
+    // bar chart
+    this.barChartLabels = _.keys(this.allState);
+    this.values = _.values(this.allState);
+    this.barChartData[0].data = this.values;
+
+    // bar chart
+    // this.barChartLabels1 = _.keys(this.allReported);
+    // this.values2 = _.values(this.allReported);
+    // this.barChartData2[0].data = this.values2;
+
+    // line chart
+    this.lineChartLabels = _.keys(this.allReported);
+    this.values2 = _.values(this.allReported);
+    this.lineChartData[0].data = this.values2;
+
+    //  status
+    this.doughnutChartData = _.values(this.allstatus);
+    this.doughnutChartLabels = _.keys(this.allstatus);
+
+    this.pieChartData = _.values(this.allstatus);
+    this.pieChartLabels = _.keys(this.allstatus);
+
+  });
+}
 
   async alertLocation() {
     const changeLocation = await this.alertCtrl.create({
@@ -183,9 +303,14 @@ export class HomePage implements OnInit {
     changeLocation.present();
   }
 
+  navigate(to) {
+    this.navCtrl.navigateRoot('/'+to);
+  }
+
   constructor(
     private patientApi: ApiService,
     public toastCtrl: ToastController,
+    public navCtrl: NavController,
     public alertCtrl: AlertController, ) { }
 
 

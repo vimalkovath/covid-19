@@ -19,11 +19,7 @@
       <ion-text color="primary"><strong>Current results</strong></ion-text>
     </h1>
   
-    <ion-button shape="round" fill="outline" size="small" color="medium" (click)="navigate()">
-      For Deatils Click here
-      <ion-icon name="home"></ion-icon>
-    </ion-button>
-    
+
   
     
         <ion-item  >
@@ -40,7 +36,50 @@
 
       
 
+   
+
+        <ion-item lines="none" *ngIf="patientsAllData" >
+          
+          <!-- <ion-card>
+            
+      
+            <ion-card-header>
+              <ion-card-title> {{patientsAllData.length}} </ion-card-title>
+              <ion-card-subtitle>Total Cases</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+       -->
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientHptlData.length}}</ion-card-title>
+              <ion-card-subtitle>Hospitalized</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientsRecoveredData.length}}</ion-card-title>
+              <ion-card-subtitle>Recovered</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>{{patientDeathData.length}}</ion-card-title>
+              <ion-card-subtitle>Death</ion-card-subtitle>
+            </ion-card-header>
+          </ion-card>
+      
+      
+      </ion-item>
     
+      <ion-item lines="none" *ngIf="patientsAllData" >
+      <ion-button shape="round" fill="outline" size="small" color="medium" (click)="navigate('home')">
+        For Visualized details Click here 
+        <ion-icon name="home"></ion-icon>
+      </ion-button>
+    </ion-item>
+
    
 
   </ion-card>

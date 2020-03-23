@@ -10,7 +10,11 @@
       COVID19 
     </ion-title>
 
-       
+
+    <ion-button shape="round" fill="outline" size="small" color="medium" (click)="navigate('dashboard')">
+      Dashboard
+      <ion-icon name="dashboard"></ion-icon>
+    </ion-button>
       <ion-button shape="round" fill="outline" size="small" color="medium" (click)="alertLocation()">
         Location
         <ion-icon name="locate"></ion-icon>
@@ -60,6 +64,29 @@
 </ion-item>
 
 
+
+  <!-- BarChart -->
+  <ion-card>
+    <ion-card-content>
+      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [legend]="barChartLegend" [chartType]="barChartType"
+        (chartClick)="onChartClick($event)"
+        >
+      </canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>State wise </ion-card-title>
+      <ion-card-subtitle>Comparison
+        <ion-button shape="round" fill="outline" size="small" color="medium" (click)="onReset()">
+          reset
+          <ion-icon name="reset"></ion-icon>
+        </ion-button>
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+
 <!-- line chart -->
 <ion-card>
 
@@ -81,6 +108,39 @@
     <ion-card-subtitle></ion-card-subtitle>
   </ion-card-header>
 </ion-card>
+
+
+
+  <!-- Doughtnut Chart-->
+  <!-- <ion-card>
+    <ion-card-content>
+      <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"></canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>Basic Doughtnut Chart</ion-card-title>
+      <ion-card-subtitle>Create basic Doughtnut Chart in ionic4</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card> -->
+
+
+  <!-- Pie Chart-->
+  <ion-card>
+   
+    <ion-card-content>
+      <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
+    </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title>All Count</ion-card-title>
+      <ion-card-subtitle>
+
+      </ion-card-subtitle>
+    </ion-card-header>
+    
+  </ion-card>
+
 
 <!-- table statewiswe -->
 <ion-card>
@@ -121,51 +181,6 @@
   </ion-row>
 </ion-grid>
 </ion-card>
-
-
-
-  <!-- BarChart -->
-  <ion-card>
-    <ion-card-content>
-      <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-        [legend]="barChartLegend" [chartType]="barChartType">
-      </canvas>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-card-title>State wise </ion-card-title>
-      <ion-card-subtitle>Comparison</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-
-
-  <!-- Doughtnut Chart-->
-  <!-- <ion-card>
-    <ion-card-content>
-      <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
-        [chartType]="doughnutChartType"></canvas>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-card-title>Basic Doughtnut Chart</ion-card-title>
-      <ion-card-subtitle>Create basic Doughtnut Chart in ionic4</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card> -->
-
-
-  <!-- Pie Chart-->
-  <ion-card>
-    <ion-card-content>
-      <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"></canvas>
-    </ion-card-content>
-
-    <ion-card-header>
-      <ion-card-title>All Count</ion-card-title>
-      <ion-card-subtitle></ion-card-subtitle>
-    </ion-card-header>
-    
-  </ion-card>
-
 
 
 
