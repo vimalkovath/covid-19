@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { AlertController, ToastController,NavController } from '@ionic/angular';
+import { AlertController, ToastController, NavController } from '@ionic/angular';
 
 import { ApiService } from './../api.service';
 import { ChartDataSets, ChartOptions } from 'chart.js';
@@ -47,8 +47,8 @@ export class HomePage implements OnInit {
   public lineChartLegend = false;
   public lineChartType = 'line';
   public lineChartPlugins = [];
-  
-  lineChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } }};
+
+  lineChartOptions: any = { legend: { display: true, labels: { fontColor: 'black' } } };
 
 
   // init start
@@ -68,8 +68,9 @@ export class HomePage implements OnInit {
 
   state_status;
 
+  barholding;
   ngOnInit() {
-
+    this.barholding = "state"
     // patientId: 1
     // reportedOn: "30/01/2020"
     // onsetEstimate: ""
@@ -151,7 +152,7 @@ export class HomePage implements OnInit {
     if (e.active.length > 0) {
       const chart = e.active[0]._chart;
       const activePoints = chart.getElementAtEvent(e.event);
-      if ( activePoints.length > 0) {
+      if (activePoints.length > 0) {
         // get the internal index of slice in pie chart
         const clickedElementIndex = activePoints[0]._index;
         const label = chart.data.labels[clickedElementIndex];
@@ -160,109 +161,160 @@ export class HomePage implements OnInit {
         console.log(clickedElementIndex, label, value)
 
         this.onChartClickTrigger(label);
-        
+
 
       }
     }
   }
 
-  onChartClickTrigger(search) 
-  {
-  this.patientsAllData = this.patientsAllData.filter(
-    patients => patients['state'] === search );
+  onChartClickTrigger(search) {
+    console.log(this.barholding, 'this.barholding');
+    if (this.barholding === 'city') {
+      this.barholding = 'state';
+      this.onReset();
+    }
+    if (this.barholding === 'state') {
 
-  this.patientsData = this.patientsAllData.filter(
-    patients => patients['reportedOn'] !== null);
+      this.patientsAllData = this.patientsAllData.filter(
+        patients => (patients['state'] === search));
 
-  console.log(this.patientsData.length);
-  this.patientsRecoveredData = this.patientsData.filter(
-    recovered => recovered['status'] === 'Recovered');
+      // this.patientsAllData = this.patientsAllData.filter(
+      //   patients =>(patients['state'] === search) || (patients['district'] === search) );
 
-  this.patientHptlData = this.patientsData.filter(
-    recovered => recovered['status'] === 'Hospitalized');
+      this.patientsData = this.patientsAllData.filter(
+        patients => patients['reportedOn'] !== null);
 
-  this.patientDeathData = this.patientsData.filter(
-    recovered => recovered['status'] === 'Deceased');
+      console.log(this.patientsData.length);
+      this.patientsRecoveredData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Recovered');
 
+      this.patientHptlData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Hospitalized');
 
-
-  this.allState = _.countBy(this.patientsAllData, "district");
-  this.allstatus = _.countBy(this.patientsAllData, "status");
-  this.allReported = _.countBy(this.patientsAllData, "reportedOn");
-
-  // bar chart
-  this.barChartLabels = _.keys(this.allState);
-  this.values = _.values(this.allState);
-  this.barChartData[0].data = this.values;
-
-  // bar chart
-  // this.barChartLabels1 = _.keys(this.allReported);
-  // this.values2 = _.values(this.allReported);
-  // this.barChartData2[0].data = this.values2;
-
-  // line chart
-  this.lineChartLabels = _.keys(this.allReported);
-  this.values2 = _.values(this.allReported);
-  this.lineChartData[0].data = this.values2;
-
-  //  status
-  this.doughnutChartData = _.values(this.allstatus);
-  this.doughnutChartLabels = _.keys(this.allstatus);
-
-  this.pieChartData = _.values(this.allstatus);
-  this.pieChartLabels = _.keys(this.allstatus);
-}
-
-onReset(){
-
-  this.patientApi.GeAllPatients().subscribe(data => {
-
-    this.patientsAllData = data["data"]["rawPatientData"];
-    console.log(this.patientsAllData);
-
-    this.patientsData = this.patientsAllData.filter(
-      patients => patients['reportedOn'] !== null);
-
-    console.log(this.patientsData.length);
-    this.patientsRecoveredData = this.patientsData.filter(
-      recovered => recovered['status'] === 'Recovered');
-
-    this.patientHptlData = this.patientsData.filter(
-      recovered => recovered['status'] === 'Hospitalized');
-
-    this.patientDeathData = this.patientsData.filter(
-      recovered => recovered['status'] === 'Deceased');
+      this.patientDeathData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Deceased');
 
 
 
-    this.allState = _.countBy(this.patientsAllData, "state");
-    this.allstatus = _.countBy(this.patientsAllData, "status");
-    this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+      this.allState = _.countBy(this.patientsAllData, "district");
+      this.allstatus = _.countBy(this.patientsAllData, "status");
+      this.allReported = _.countBy(this.patientsAllData, "reportedOn");
 
-    // bar chart
-    this.barChartLabels = _.keys(this.allState);
-    this.values = _.values(this.allState);
-    this.barChartData[0].data = this.values;
+      // bar chart
+      this.barChartLabels = _.keys(this.allState);
+      this.values = _.values(this.allState);
+      this.barChartData[0].data = this.values;
 
-    // bar chart
-    // this.barChartLabels1 = _.keys(this.allReported);
-    // this.values2 = _.values(this.allReported);
-    // this.barChartData2[0].data = this.values2;
+      // line chart
+      this.lineChartLabels = _.keys(this.allReported);
+      this.values2 = _.values(this.allReported);
+      this.lineChartData[0].data = this.values2;
 
-    // line chart
-    this.lineChartLabels = _.keys(this.allReported);
-    this.values2 = _.values(this.allReported);
-    this.lineChartData[0].data = this.values2;
+      //  status
+      this.doughnutChartData = _.values(this.allstatus);
+      this.doughnutChartLabels = _.keys(this.allstatus);
 
-    //  status
-    this.doughnutChartData = _.values(this.allstatus);
-    this.doughnutChartLabels = _.keys(this.allstatus);
+      this.pieChartData = _.values(this.allstatus);
+      this.pieChartLabels = _.keys(this.allstatus);
+      this.barholding = "district";
+    } else if (this.barholding === 'district') {
+      this.patientsAllData = this.patientsAllData.filter(
+        patients => (patients['district'] === search));
 
-    this.pieChartData = _.values(this.allstatus);
-    this.pieChartLabels = _.keys(this.allstatus);
+      // this.patientsAllData = this.patientsAllData.filter(
+      //   patients =>(patients['state'] === search) || (patients['district'] === search) );
 
-  });
-}
+      this.patientsData = this.patientsAllData.filter(
+        patients => patients['reportedOn'] !== null);
+
+      console.log(this.patientsData.length);
+      this.patientsRecoveredData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Recovered');
+
+      this.patientHptlData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Hospitalized');
+
+      this.patientDeathData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Deceased');
+
+
+
+      this.allState = _.countBy(this.patientsAllData, "city");
+      this.allstatus = _.countBy(this.patientsAllData, "status");
+      this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+
+      // bar chart
+      this.barChartLabels = _.keys(this.allState);
+      this.values = _.values(this.allState);
+      this.barChartData[0].data = this.values;
+
+      // line chart
+      this.lineChartLabels = _.keys(this.allReported);
+      this.values2 = _.values(this.allReported);
+      this.lineChartData[0].data = this.values2;
+
+      //  status
+      this.doughnutChartData = _.values(this.allstatus);
+      this.doughnutChartLabels = _.keys(this.allstatus);
+
+      this.pieChartData = _.values(this.allstatus);
+      this.pieChartLabels = _.keys(this.allstatus);
+      this.barholding = "city";
+    }
+
+
+  }
+
+  onReset() {
+
+    this.patientApi.GeAllPatients().subscribe(data => {
+
+      this.patientsAllData = data["data"]["rawPatientData"];
+      console.log(this.patientsAllData);
+
+      this.patientsData = this.patientsAllData.filter(
+        patients => patients['reportedOn'] !== null);
+
+      console.log(this.patientsData.length);
+      this.patientsRecoveredData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Recovered');
+
+      this.patientHptlData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Hospitalized');
+
+      this.patientDeathData = this.patientsData.filter(
+        recovered => recovered['status'] === 'Deceased');
+
+
+
+      this.allState = _.countBy(this.patientsAllData, "state");
+      this.allstatus = _.countBy(this.patientsAllData, "status");
+      this.allReported = _.countBy(this.patientsAllData, "reportedOn");
+
+      // bar chart
+      this.barChartLabels = _.keys(this.allState);
+      this.values = _.values(this.allState);
+      this.barChartData[0].data = this.values;
+
+      // bar chart
+      // this.barChartLabels1 = _.keys(this.allReported);
+      // this.values2 = _.values(this.allReported);
+      // this.barChartData2[0].data = this.values2;
+
+      // line chart
+      this.lineChartLabels = _.keys(this.allReported);
+      this.values2 = _.values(this.allReported);
+      this.lineChartData[0].data = this.values2;
+
+      //  status
+      this.doughnutChartData = _.values(this.allstatus);
+      this.doughnutChartLabels = _.keys(this.allstatus);
+
+      this.pieChartData = _.values(this.allstatus);
+      this.pieChartLabels = _.keys(this.allstatus);
+      this.barholding = 'state';
+    });
+  }
 
   async alertLocation() {
     const changeLocation = await this.alertCtrl.create({
@@ -304,7 +356,7 @@ onReset(){
   }
 
   navigate(to) {
-    this.navCtrl.navigateRoot('/'+to);
+    this.navCtrl.navigateRoot('/' + to);
   }
 
   constructor(
